@@ -40,7 +40,7 @@ while true; do
 		echo -e "Enter cluster-name: "
 		read cluster_name
 
-		$ing = ing
+		ing="ing"
 		echo "$command$ing \"$cluster_name\"... "
 		source spark-ec2 $command $cluster_name
 	elif [ "$command" == "start" ]; then
