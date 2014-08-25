@@ -1,8 +1,8 @@
 #!/bin/bash
 #spark ec2 cluster management script
 
-KEY_PAIR_NAME=name_of_your_key_pair
-KEY_FILE=/path/to/your/key/file
+export KEY_PAIR_NAME=name_of_your_key_pair
+export KEY_FILE=/path/to/your/key/file
 
 # environment variables are not set
 if [[ -z "$AWS_ACCESS_KEY_ID" || -z "$AWS_SECRET_ACCESS_KEY" ]]; then
@@ -25,7 +25,6 @@ fi
 while true; do
 
 	echo -e "Enter an action (launch, destroy, login, stop, start, get-master) or \"quit\" to exit: "
-
 	read command
 
 	if [ "$command" == "launch" ]; then
@@ -36,35 +35,31 @@ while true; do
 		read cluster_name
 
 		echo "Starting cluster \"$cluster_name\" with $num_slaves slaves..."
-		bash spark-ec2 -asdsad "bad_arg" -k $KEY_PAIR_NAME -i $KEY_FILE -s $num_slaves launch $cluster_name
+		source spark-ec2 -asdsad "bad_arg" -k $KEY_PAIR_NAME -i $KEY_FILE -s $num_slaves launch $cluster_name
 	elif [[ "$command" == "destroy" || "$command" == "stop" ]]; then
 		echo -e "Enter cluster-name: "
 		read cluster_name
 
 		$ing = ing
 		echo "$command$ing \"$cluster_name\"... "
-		bash spark-ec2 $command $cluster_name
+		source spark-ec2 $command $cluster_name
 	elif [ "$command" == "start" ]; then
 		echo -e "Enter cluster-name: "
 		read cluster_name
-elif [ "$command" == "stop" ]; then
-	echo -e "Enter cluster-name: "
-	read cluster_name
 
-	echo "Stopping cluster \"$cluster_name\""
-	bash spark-ec2 stop $cluster_name
 		echo "Starting cluster \"$cluster_name\""
-		bash spark-ec2 -i $KEY_FILE start $cluster_name
+		source spark-ec2 -i $KEY_FILE start $cluster_name
 	elif [ "$command" == "stop" ]; then
 		echo -e "Enter cluster-name: "
 		read cluster_name
 
 		echo "Stopping cluster \"$cluster_name\""
-		bash spark-ec2 stop $cluster_name
+		source spark-ec2 stop $cluster_name
 	elif [ "$command" == "get-master" ]; then
 		echo -e "Enter cluster-name: "
 		read cluster_name
-		bash spark-ec2 -k $KEY_PAIR_NAME -i $KEY_FILE get-master $cluster_name
+		
+		source spark-ec2 -k $KEY_PAIR_NAME -i $KEY_FILE get-master $cluster_name
 	elif [ "$command" == "quit" ]; then
 		break
 	else
