@@ -117,7 +117,7 @@ while true; do
 					"$flag" == "delete-groups" || \
 					"$flag" == "use-existing-master" ]]; then
 					base_cmd=$(add_param "$base_cmd" "$flag")
-				elif [[ "$flag" == "help" || "$flag" == "'help'"]]; then
+				elif [[ "$flag" == "help" || "$flag" == "'help'" ]]; then
 					bash spark-ec2 -h
 				else
 					echo -e "What value do you want to set for $flag?"
