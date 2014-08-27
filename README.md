@@ -7,23 +7,19 @@ Bash program to help create and manage AWS ec2 clusters for apache spark
 Get the code
 ==============
 
-Copy the raw file into your own script or
+Copy the raw file into your own script or clone it and place it in your spark/ec2 directory
 ```
   $ git clone https://github.com/alextbok/spark-ec2-manager.git
+  $ cd spark-ec2-manager
+  $ mv spark-ec2-manager.sh /path/to/spark/ec2/
 ```
 
 How to use
 ===============
 Run the script from the ec2 folder in your spark directory
 ```
-  $ cd /path/to/spark-version/ec2
-  $ bash /path/to/spark-ec2-manager.sh
-```
-or
-```
-  $ cp /path/to/spark-ec2-manager.sh /path/to/spark-version/ec2
-  $ cd /path/to/spark-version/ec2
-  $ ./spark-ec2-manager.sh
+  $ cd /path/to/spark-version/ec2/
+  $ bash spark-ec2-manager.sh
 ```
 
 Once the script is run, its interactive REPL will help you get an ec2 cluster up and running!

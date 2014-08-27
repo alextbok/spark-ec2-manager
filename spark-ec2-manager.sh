@@ -83,7 +83,7 @@ while true; do
 		echo -e "Enter cluster-name: "
 		read cluster_name
 
-		base_cmd="spark-ec2 -asdsad "bad_arg" -k $KEY_PAIR_NAME -i $KEY_FILE -s $num_slaves launch $cluster_name"
+		base_cmd="spark-ec2 -k $KEY_PAIR_NAME -i $KEY_FILE -s $num_slaves "
 		while true; do
 			echo -e "Would you like to add any more flags (y/n)?"
 			read ans
@@ -109,7 +109,7 @@ while true; do
 					ganglia \n \
 					no-ganglia \n \
 					delete-groups \n \
-					use-existing-master"
+					use-existing-master \n To see details about these flags, type 'help'"
 				read flag
 				if [[ "$flag" == "resume" || \
 					"$flag" == "ganglia" || \
@@ -117,18 +117,22 @@ while true; do
 					"$flag" == "delete-groups" || \
 					"$flag" == "use-existing-master" ]]; then
 					base_cmd=$(add_param "$base_cmd" "$flag")
+				elif [[ "$flag" == "help" || "$flag" == "'help'"]]; then
+					bash spark-ec2 -h
 				else
 					echo -e "What value do you want to set for $flag?"
 					read val
 					base_cmd=$(add_param "$base_cmd" "$flag" "$val")
 				fi
-			elif [ $ans == "n" ]; then
+			elif [[ $ans == "n" ]]; then
 				break
 			fi
 		done
 
 		echo "Starting cluster \"$cluster_name\" with $num_slaves slaves..."
-		source spark-ec2 -asdsad "bad_arg" -k $KEY_PAIR_NAME -i $KEY_FILE -s $num_slaves launch $cluster_name
+		base_cmd="$base_cmd launch $cluster_name"
+		echo $base_cmd
+		bash $base_cmd
 
 	elif [[ "$command" == "destroy" || "$command" == "stop" ]]; then
 		echo -e "Enter cluster-name: "
@@ -136,24 +140,24 @@ while true; do
 
 		ing="ing"
 		echo "$command$ing \"$cluster_name\"... "
-		source spark-ec2 $command $cluster_name
+		bash spark-ec2 $command $cluster_name
 	elif [ "$command" == "start" ]; then
 		echo -e "Enter cluster-name: "
 		read cluster_name
 
 		echo "Starting cluster \"$cluster_name\""
-		source spark-ec2 -i $KEY_FILE start $cluster_name
+		bash spark-ec2 -i $KEY_FILE start $cluster_name
 	elif [ "$command" == "stop" ]; then
 		echo -e "Enter cluster-name: "
 		read cluster_name
 
 		echo "Stopping cluster \"$cluster_name\""
-		source spark-ec2 stop $cluster_name
+		bash spark-ec2 stop $cluster_name
 	elif [ "$command" == "get-master" ]; then
 		echo -e "Enter cluster-name: "
 		read cluster_name
 		
-		source spark-ec2 -k $KEY_PAIR_NAME -i $KEY_FILE get-master $cluster_name
+		bash spark-ec2 -k $KEY_PAIR_NAME -i $KEY_FILE get-master $cluster_name
 	elif [ "$command" == "quit" ]; then
 		break
 	else
